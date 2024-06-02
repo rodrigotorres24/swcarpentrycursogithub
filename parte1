@@ -1,0 +1,133 @@
+//* Github o controlador de versiones se creo con la finalidad de optimizar los cambios que se realizan en un proyecto de forma eficaz y concisa a traves de los llamados commits.
+Actualmente existen herramientas como la terminal de comandos GitBash que te permiten ejecutar comandos para guardar los cambios que se realizan,
+GitHub es el sitio web oficial donde encontraras muchos proyectos realizados por las comunidades que puedes modificar o apoyarte de codigos abiertos asi como GitLab, otro sitio web
+parecido a github.
+GitHub copilot es un inteligencia artificial creada por GitHub y OpenAI para ayudar o asistir en tu codigo en Visual Studio Code. //*
+
+Los sistemas de control de versiones comienzan con una versión base del documento y luego registran los cambios que realiza en cada paso del camino. 
+Puede considerarlo como una grabación de su progreso: puede rebobinar para 
+comenzar en el documento base y reproducir cada cambio que realizó, hasta llegar eventualmente a su versión más reciente.
+El historial completo de confirmaciones de un proyecto en particular y sus metadatos conforman un repositorio.
+Los repositorios se pueden mantener sincronizados en diferentes computadoras, lo que facilita la colaboración entre diferentes personas.
+
+ -- Configurando Git --
+Cuando usamos Git en una computadora nueva por primera vez, necesitamos configurar algunas cosas.
+A continuación se muestran algunos ejemplos de configuraciones que estableceremos cuando comencemos con Git:
+
+* nuestro nombre y dirección de correo electrónico,
+* cuál es nuestro editor de texto preferido,
+* que queremos utilizar estas configuraciones globalmente (es decir, para cada proyecto).
+En una línea de comando, los comandos de Git se escriben como git verb options, 
+donde verbes lo que realmente queremos hacer y optionshay información opcional adicional que puede ser necesaria para el archivo verb. 
+
+$ git config --global user.name "Vlad Dracula"
+$ git config --global user.email "vlad@tran.sylvan.ia"
+
+-- Crear un repositorio --
+
+Es importante tener en cuenta que git initse creará un repositorio que puede incluir subdirectorios y sus archivos; 
+no es necesario crear repositorios separados anidados dentro del planetsrepositorio, ya sea que los subdirectorios 
+estén presentes desde el principio o se agreguen más adelante. Además, tenga en cuenta que la creación del planetsdirectorio y su inicialización 
+como repositorio son procesos completamente separados.
+
+$ git init 
+
+Si usamos ls para mostrar el contenido del directorio, parece que nada ha cambiado:
+
+$ ls 
+
+A continuación, cambiaremos la rama predeterminada que se llamará main. Esta podría ser la rama predeterminada según su configuración y versión de git. 
+Consulte el episodio de configuración para obtener más información sobre este cambio.
+
+$ git checkout -b main
+
+Podemos comprobar que todo está configurado correctamente pidiéndole a Git que nos diga el estado de nuestro proyecto:
+
+$ git status 
+
+En resumen:
+
+$ cd ~/Desktop   # return to Desktop directory
+$ cd planets     # go into planets directory, which is already a Git repository
+$ ls -a          # ensure the .git subdirectory is still present in the planets directory
+$ mkdir moons    # make a subdirectory planets/moons
+$ cd moons       # go into moons subdirectory
+$ git init       # make the moons subdirectory a Git repository
+$ ls -a          # ensure the .git subdirectory is present indicating we have created a new Git repository
+
+ -- Como registrar cambios en Git --
+
+Git ahora sabe que se supone que debe realizar un seguimiento en un archivo creado llamado mars.txt, 
+pero aún no ha registrado estos cambios como una confirmación. Para que haga eso, necesitamos ejecutar un comando más:
+
+$ git commit -m "Start notes on Mars as a base"
+
+nos dice que todo está actualizado. Si queremos saber qué hemos hecho recientemente, podemos pedirle a Git que nos muestre el historial del proyecto usando git log:
+
+commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
+Author: Vlad Dracula <vlad@tran.sylvan.ia>
+Date:   Thu Aug 22 09:51:46 2013 -0400
+
+La última línea es la frase clave: "no se agregaron cambios para confirmar". 
+Hemos cambiado este archivo, pero no le hemos dicho a Git que querremos guardar esos cambios (lo que hacemos con git add) 
+ni los hemos guardado (lo que hacemos con git commit). Así que hagámoslo ahora. Es una buena práctica revisar siempre nuestros cambios antes de guardarlos. Hacemos esto usando git diff. 
+Esto nos muestra las diferencias entre el estado actual del archivo y la versión guardada más recientemente:
+
+diff --git a/mars.txt b/mars.txt
+index df0654a..315bf3a 100644
+--- a/mars.txt
++++ b/mars.txt
+@@ -1 +1,2 @@
+ Cold and dry, but everything is my favorite color
++The two moons may be a problem for Wolfman
+
+La primera línea nos dice que Git está produciendo un resultado similar al diffcomando de Unix comparando las versiones antigua y nueva del archivo.
+La segunda línea indica exactamente qué versiones del archivo está comparando Git; df0654ay 315bf3ason etiquetas únicas generadas por computadora para esas versiones.
+La tercera y cuarta líneas muestran una vez más el nombre del archivo que se está cambiando.
+Las líneas restantes son las más interesantes, nos muestran las diferencias reales y las líneas en las que ocurren. En particular, el +marcador en la primera columna muestra dónde agregamos una línea.
+
+$ git add mars.txt
+$ git commit -m "Add concerns about effects of Mars' moons on Wolfman"
+
+-- HEAD y recuperar versiones antiguas
+También podríamos usar git showque nos muestra qué cambios hicimos en una confirmación anterior, 
+así como el mensaje de confirmación, en lugar de las diferencias entre una confirmación y nuestro directorio de trabajo que vemos al usar git diff.
+
+$ git show HEAD~3 mars.txt
+
+commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
+Author: Vlad Dracula <vlad@tran.sylvan.ia>
+Date:   Thu Aug 22 09:51:46 2013 -0400
+
+    Start notes on Mars as a base
+
+diff --git a/mars.txt b/mars.txt
+new file mode 100644
+index 0000000..df0654a
+--- /dev/null
++++ b/mars.txt
+@@ -0,0 +1 @@
++Cold and dry, but everything is my favorite color
+
+De esta manera, podemos construir una cadena de confirmaciones. El final más reciente de la cadena se denomina HEAD; podemos referirnos a 
+confirmaciones anteriores usando la ~notación, por lo que HEAD~1significa "la confirmación anterior", mientras que HEAD~123retrocede 123 confirmaciones desde donde estamos ahora.
+También podemos referirnos a confirmaciones usando esas largas cadenas de dígitos y letras que git logse muestran. 
+Estos son identificadores únicos para los cambios, y "único" realmente significa único: cada cambio en cualquier conjunto de archivos en cualquier computadora 
+tiene un identificador único de 40 caracteres. 
+ Entonces podemos guardar los cambios en los archivos y ver qué hemos cambiado. Ahora bien, ¿cómo podemos restaurar versiones anteriores de las cosas? Supongamos que cambiamos de opinión sobre la última actualización mars.txt(el “cambio mal pensado”).
+
+git status ahora nos dice que el archivo ha sido cambiado, pero esos cambios no se han preparado:
+
+$ git status
+
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+
+
+    modified:   mars.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+

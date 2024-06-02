@@ -1,0 +1,85 @@
+ -- Ignorar archivos en Git -- 
+
+ ¿Qué pasa si tenemos archivos que no queremos que Git rastree por nosotros,
+ como archivos de respaldo creados por nuestro editor o archivos intermedios creados durante el análisis de datos? Creemos algunos archivos ficticios:
+
+$ mkdir results
+$ touch a.csv b.csv c.csv results/a.out results/b.out
+
+Poner estos archivos bajo control de versiones sería una pérdida de espacio en disco. Lo que es peor, 
+tenerlos todos en la lista podría distraernos de los cambios que realmente importan, así que digámosle a Git que los ignore.
+
+Hacemos esto creando un archivo en el directorio raíz de nuestro proyecto llamado .gitignore:
+
+Estos patrones le dicen a Git que ignore cualquier archivo cuyo nombre termine en .csvy todo lo que esté en el resultsdirectorio. 
+(Si alguno de estos archivos ya estuviera siendo rastreado, Git continuaría rastreándolo).
+
+Una vez que hemos creado este archivo, la salida git status es mucho más limpia:
+
+-- colaborar en GitHub --
+
+El propietario debe dar acceso al colaborador. En la página de su repositorio en GitHub, haga clic en el botón "Configuración" a la derecha, 
+seleccione "Colaboradores", haga clic en "Agregar personas" y luego ingrese el nombre de usuario de su socio.
+
+Para aceptar el acceso al repositorio del Propietario, el Colaborador debe ir a https://github.com/notifications o buscar notificaciones por correo electrónico. Una vez allí, podrá aceptar el acceso al repositorio del propietario.
+
+A continuación, el colaborador debe descargar una copia del repositorio del propietario en su máquina. Esto se llama "clonar un repositorio".
+
+El colaborador no quiere sobrescribir su propia versión de planets.git, por lo que necesita clonar el 
+repositorio del propietario en una ubicación diferente a su propio repositorio con el mismo nombre.
+
+Para clonar el repositorio del Propietario en su Desktopcarpeta, el Colaborador ingresa:
+
+git clone git@github.com:vlad/planets.git ~/Desktop/vlad-planets
+
+La Colaboradora ahora puede realizar un cambio en su clon del repositorio del Propietario, exactamente de la misma manera que lo hemos estado haciendo antes:
+
+$ git add pluto.txt
+$ git commit -m "Add notes about Pluto"
+
+Luego envíe el cambio al repositorio del propietario en GitHub:  $ git push origin main
+
+Tenga en cuenta que no tuvimos que crear un control remoto llamado origin: Git usa este nombre de forma predeterminada cuando clonamos un repositorio. 
+(Es por eso que originantes era una elección sensata cuando estábamos configurando los controles remotos a mano).
+
+-- Licencias --
+Cuando un repositorio con código fuente, un manuscrito u otras obras creativas se hace público, debe incluir un archivo LICENSEo LICENSE.txt 
+en el directorio base del repositorio que indique claramente bajo qué licencia se pone a disposición el contenido. Esto se debe a que las obras creativas 
+son automáticamente elegibles para la protección de la propiedad intelectual (y, por lo tanto, de los derechos de autor). 
+Reutilizar obras creativas sin licencia es peligroso, porque los titulares de los derechos de autor podrían demandarlo por infracción de derechos de autor.
+
+Una licencia resuelve este problema otorgando derechos a otros (los licenciatarios) que de otro modo no tendrían. Los derechos que se conceden y en qué condiciones difieren,
+a menudo sólo ligeramente, de una licencia a otra. En la práctica, algunas licencias son, con diferencia, las más populares, y elijaalicense.com le ayudará a encontrar una licencia común
+que se adapte a sus necesidades. Las consideraciones importantes incluyen:
+
+Si desea abordar los derechos de patente.
+Si necesita que las personas que distribuyen trabajos derivados también distribuyan su código fuente.
+Si el contenido que está licenciando es código fuente.
+Si desea obtener la licencia del código.
+Elegir una licencia de uso común hace la vida más fácil para los contribuyentes y usuarios, porque es más probable que ya estén familiarizados con la licencia y 
+no tengan que leer un montón de jerga para decidir si están de acuerdo con ella. La Open Source Initiative y la Free Software Foundation mantienen listas de 
+licencias que son buenas opciones.
+
+-- Alojamiento -- 
+
+a segunda gran pregunta para los grupos que quieren abrir su trabajo es dónde alojar su código y sus datos.
+Una opción es que el laboratorio, el departamento o la universidad proporcionen un servidor, administren cuentas y copias de seguridad, etc. 
+El principal beneficio de esto es que aclara quién posee qué, lo cual es particularmente importante si alguno de los materiales es sensible (es decir, se relaciona con experimentos con sujetos humanos o puede usarse en una solicitud de patente). Los principales inconvenientes son el coste de proporcionar el servicio y su longevidad: un científico que ha pasado diez años recopilando datos le gustaría estar seguro de que los datos seguirán disponibles dentro de diez años, pero eso va mucho más allá de la vida útil de la mayoría de las subvenciones. que financian la infraestructura académica.
+
+Otra opción es comprar un dominio y pagarle a un proveedor de servicios de Internet (ISP) para que lo aloje. 
+Esto le da al individuo o al grupo más control y evita los problemas que pueden surgir al pasar de una institución a otra, 
+pero requiere más tiempo y esfuerzo para configurarlo que la opción anterior o la siguiente.
+
+La tercera opción es utilizar un servicio de alojamiento público como GitHub , GitLab o BitBucket . 
+Cada uno de estos servicios proporciona una interfaz web que permite a las personas crear, ver y 
+editar sus repositorios de código. Estos servicios también brindan herramientas de comunicación y
+gestión de proyectos que incluyen seguimiento de problemas, páginas wiki, notificaciones por correo el
+ectrónico y revisiones de código. Estos servicios se benefician de las economías de escala y los efectos de red: 
+es más fácil ejecutar bien un servicio grande que ejecutar muchos servicios más pequeños con el mismo estándar. 
+También es más fácil para las personas colaborar. El uso de un servicio popular puede ayudar a conectar su proyecto con comunidades que ya utilizan el mismo servicio.
+
+Como ejemplo, Software Carpentry está en GitHub, donde puede encontrar la fuente de esta página. 
+Cualquier persona con una cuenta de GitHub puede sugerir cambios a este texto.
+
+A los repositorios de GitHub también se les pueden asignar DOI, conectando sus versiones a Zenodo . 
+Por ejemplo, 10.5281/zenodo.7908089 es el DOI que se ha "acuñado" para esta introducción a Git.
